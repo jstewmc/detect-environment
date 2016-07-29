@@ -7,7 +7,7 @@ use Jstewmc\DetectEnvironment\Detect;
 // put an environment variable
 putenv('environment=development');
 
-// detect the environment
+// detect the environment (requires the variable's name)
 $evironment = (new Detect('environment'))();
 
 // get the environment name
@@ -22,9 +22,9 @@ $environment->isProduction();   // returns false
 
 ## Environment variable
 
-In the example above, the environment was "put" using the `putenv()` function. However, in the real world, the environment variable should be defined somewhere in your server configuration.
+In the example above, the environment variable was set using the `putenv()` function. However, in the real world, the environment variable should be defined somewhere in your server configuration (e.g., `.htaccess` or `httpd.conf`).
 
-The environment variable's _name_ MAY be any string (e.g., `environment`, `APP_ENV`, etc). 
+The environment variable's _name_ MAY be any string (e.g., `ENV`, `environment`, `APP_ENV`, etc). 
 
 However, the environment variable's _value_ MUST be one of the following strings: 
 
