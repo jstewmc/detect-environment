@@ -19,10 +19,10 @@ putenv('APP_ENV=foo');
 $service = new Detect('APP_ENV', $values);
 
 // detect the environment
-$environment->isDevelopment();  // returns true
-$environment->isTesting();      // returns false
-$environment->isStaging();      // returns false
-$environment->isProduction();   // returns false
+$service->isDevelopment();  // returns true
+$service->isTesting();      // returns false
+$service->isStaging();      // returns false
+$service->isProduction();   // returns false
 ```
 
 ## Usage
@@ -76,9 +76,7 @@ $service->isFoo();          // throws exception (MUST be valid environment name)
 
 ## Environment variable
 
-In the examples above, the environment variable was set using the `putenv()` function. 
-
-In the real world, you should define the environment variable in your server configuration (e.g., `.htaccess`, `httpd.conf`, etc). 
+In the examples above, the environment variable was set using the `putenv()` function. However, in the real world, you should define the environment variable in your server configuration (e.g., `.htaccess`, `httpd.conf`, etc). 
 
 No matter where you define the environment variable, it MUST be accessible to PHP's [getenv](http://php.net/manual/en/function.getenv.php) function.
 
