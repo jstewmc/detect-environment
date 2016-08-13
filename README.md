@@ -88,6 +88,11 @@ That's it!
 
 ## Version
 
+### 1.0.0, August 13, 2016
+
+* Major release
+* Update `composer.json`
+
 ### 0.2.0, August 13, 2016
 
 * Refactor to support user-defined environments
