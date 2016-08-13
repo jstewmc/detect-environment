@@ -16,48 +16,126 @@ use Jstewmc\TestCase\TestCase;
  */
 class DetectTest extends TestCase
 {
+    /* !Private properties */
+    
+    /**
+     * @var  string  the name of the environment variable
+     */
+    private $name = 'foo';
+    
+    /**
+     * @var  string  the value of the environment variable
+     */
+    private $value = 'development';
+    
+    
+    /* !Framework methods */
+    
+    /**
+     * Called before every test
+     *
+     * @return  void
+     */
+    public function setUp()
+    {
+        putenv("{$this->name}={$this->value}");
+        
+        return;
+    }
+    
+    
+    /* !__call() */
+    
+    /**
+     * __call() should throw an exception if the method name is invalid
+     */
+    public function testCallThrowsExceptionIfMethodIsInvalid()
+    {
+        $this->setExpectedException('BadMethodCallException');
+        
+        // method name must start with "is"
+        (new Detect($this->name, []))->foo();
+        
+        return;
+    }
+    
+    /**
+     * __call() should throw an exception if the environment name is invalid
+     */
+    public function testCallThrowsExceptionIfEnvironmentIsInvalid()
+    {
+        $this->setExpectedException('OutOfBoundsException');
+        
+        // method name must be defined in possible values array
+        (new Detect($this->name, []))->isDevelopment();
+        
+        return;
+    }
+    
+    /**
+     * __call() should return false if the environments do not match
+     */
+    public function testCallReturnsFalseIfEnvironmentsDoNotMatch()
+    {
+        // define the possible values
+        $values = [
+            'foo' => $this->value,
+            'bar' => strrev($this->value)
+        ];
+        
+        $this->assertFalse((new Detect($this->name, $values))->isBar());
+        
+        return;
+    }
+    
+    /**
+     * __call() should return true if the environments do match
+     */
+    public function testCallReturnsTrieIfEnvironmentsDoMatch()
+    {
+        // define the possible values
+        $values = [
+            'foo' => $this->value,
+            'bar' => strrev($this->value)
+        ];
+        
+        $this->assertTrue((new Detect($this->name, $values))->isFoo());
+        
+        return;
+    }
+    
+    
     /* !__construct() */
     
     /**
-     * __construct() should set the environment variable's name
+     * __construct() should throw an exception if the variable is not defined
      */
-    public function testConstruct()
+    public function testConstructThrowsExceptionIfVariableIsNotDefined()
     {
-        $name = 'foo';
+        $this->setExpectedException('OutOfBoundsException');
         
-        $context = new Detect($name);
-        
-        $this->assertEquals($name, $this->getProperty('name', $context));
-        
-        return;
-    }
-    
-    
-    /* !__invoke() */ 
-    
-    /**
-     * __invoke() should throw an exception if the variable is not set
-     */
-    public function testGetThrowsExceptionIfVariableIsNotSet()
-    {
-        $this->setExpectedException('RuntimeException');
-        
-        (new Detect('foo'))();
+        // set the environment variable's name to *anything* but the name used in
+        //     the setUp() method
+        //
+        (new Detect(strrev($this->name), []))();
         
         return;
     }
     
     /**
-     * __invoke() should return an environment if the variable is set
+     * __construct() should set the properties if the variable is defined
      */
-    public function testGetReturnsEnvironmentIfVariableIsSet()
+    public function testConstructSetsPropertiesIfVariableIsDefined()
     {
-        $name  = 'foo';
-        $value = Environment::DEVELOPMENT;
+        $values = [
+            'development' => $this->value,
+            'testing'     => strrev($this->value)
+        ];
         
-        putenv("$name=$value");
+        $service = new Detect($this->name, $values);
         
-        $this->assertEquals(new Environment($value), (new Detect($name))());
+        $this->assertEquals($this->value, $this->getProperty('actualValue', $service));
+        $this->assertEquals($values, $this->getProperty('possibleValues', $service));
         
         return;
     }
