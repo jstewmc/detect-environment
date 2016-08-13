@@ -82,6 +82,10 @@ No matter where you define the environment variable, it MUST be accessible to PH
 
 That's it!
 
+## License
+
+[MIT](https://github.com/jstewmc/detect-environment/blob/master/LICENSE)
+
 ## Author
 
 [Jack Clayton](mailto:jack@jahuty.com)
