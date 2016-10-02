@@ -20,8 +20,9 @@ use OutOfBoundsException;
  *
  * @since  0.1.0
  * @since  0.2.0  refactor to support user-defined environments
+ * @since  2.0.0  rename to DetectEnvironment
  */
-class Detect
+class DetectEnvironment
 {
     /* !Private properties */
     

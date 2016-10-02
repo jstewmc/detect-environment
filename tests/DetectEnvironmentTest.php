@@ -1,6 +1,6 @@
 <?php
 /**
- * The file for the detect-environment context tests
+ * The file for the detect-environment service tests
  *
  * @author     Jack Clayton <clayjs0@gmail.com>
  * @copyright  2016 Jack Clayton
@@ -12,9 +12,9 @@ namespace Jstewmc\DetectEnvironment;
 use Jstewmc\TestCase\TestCase;
 
 /**
- * Tests for the detect-environment context
+ * Tests for the detect-environment service
  */
-class DetectTest extends TestCase
+class DetectEnvironmentTest extends TestCase
 {
     /* !Private properties */
     
@@ -54,7 +54,7 @@ class DetectTest extends TestCase
         $this->setExpectedException('BadMethodCallException');
         
         // method name must start with "is"
-        (new Detect($this->name, []))->foo();
+        (new DetectEnvironment($this->name, []))->foo();
         
         return;
     }
@@ -67,7 +67,7 @@ class DetectTest extends TestCase
         $this->setExpectedException('OutOfBoundsException');
         
         // method name must be defined in possible values array
-        (new Detect($this->name, []))->isDevelopment();
+        (new DetectEnvironment($this->name, []))->isDevelopment();
         
         return;
     }
@@ -83,7 +83,7 @@ class DetectTest extends TestCase
             'bar' => strrev($this->value)
         ];
         
-        $this->assertFalse((new Detect($this->name, $values))->isBar());
+        $this->assertFalse((new DetectEnvironment($this->name, $values))->isBar());
         
         return;
     }
@@ -99,7 +99,7 @@ class DetectTest extends TestCase
             'bar' => strrev($this->value)
         ];
         
-        $this->assertTrue((new Detect($this->name, $values))->isFoo());
+        $this->assertTrue((new DetectEnvironment($this->name, $values))->isFoo());
         
         return;
     }
@@ -117,7 +117,7 @@ class DetectTest extends TestCase
         // set the environment variable's name to *anything* but the name used in
         //     the setUp() method
         //
-        (new Detect(strrev($this->name), []))();
+        (new DetectEnvironment(strrev($this->name), []))();
         
         return;
     }
@@ -132,7 +132,7 @@ class DetectTest extends TestCase
             'testing'     => strrev($this->value)
         ];
         
-        $service = new Detect($this->name, $values);
+        $service = new DetectEnvironment($this->name, $values);
         
         $this->assertEquals($this->value, $this->getProperty('actualValue', $service));
         $this->assertEquals($values, $this->getProperty('possibleValues', $service));
@@ -148,6 +148,9 @@ class DetectTest extends TestCase
      */
     public function testInvoke()
     {
-        return $this->assertEquals($this->value, (new Detect($this->name, []))());
+        return $this->assertEquals(
+            $this->value, 
+            (new DetectEnvironment($this->name, []))()
+        );
     }
 }
