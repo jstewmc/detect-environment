@@ -2,7 +2,7 @@
 Detect an application's environment.
 
 ```php
-use Jstewmc\DetectEnvironment\Detect;
+namespace Jstewmc\DetectEnvironment;
 
 // define our possible environments
 $values = [
@@ -16,13 +16,16 @@ $values = [
 putenv('APP_ENV=foo');
 
 // instantiate the service
-$service = new Detect('APP_ENV', $values);
+$service = new DetectEnvironment('APP_ENV', $values);
 
 // detect the environment
 $service->isDevelopment();  // returns true
 $service->isTesting();      // returns false
 $service->isStaging();      // returns false
 $service->isProduction();   // returns false
+
+// get the environment's name
+$service();  // returns "development"
 ```
 
 ## Usage
@@ -30,11 +33,11 @@ $service->isProduction();   // returns false
 To instantiate the service, you MUST pass the _environment variable name_ and the _environment variable values_, indexed by _application environment_ name:
 
 ```php
-use Jstewmc\DetectEnvironment\Detect;
+namespace Jstewmc\DetectEnvironment;
 
 putenv('APP_ENV=foo');
 
-$service = new Detect(
+$service = new DetectEnvironment(
     'APP_ENV', 
     [
         'development' => 'foo',
@@ -52,11 +55,11 @@ Keep in mind, the _environment variable name_, the _environment variable values_
 You can check the application's environment using `isX()` methods, where `X` is any valid application environment name:
 
 ```php
-use Jstewmc\DetectEnvironment\Detect;
+namespace Jstewmc\DetectEnvironment;
 
 putenv('APP_ENV=foo');
 
-$service = new Detect(
+$service = new DetectEnvironment(
     'APP_ENV', 
     [
         'development' => 'foo',
@@ -91,6 +94,11 @@ That's it!
 [Jack Clayton](mailto:jack@jahuty.com)
 
 ## Version
+
+### 2.0.0, October 2, 2016
+
+* Add `__invoke()` method to return environment name.
+* Rename class to `DetectEnvironment`. The longer name seems more intentional.
 
 ### 1.0.0, August 13, 2016
 
