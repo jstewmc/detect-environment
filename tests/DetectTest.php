@@ -139,4 +139,15 @@ class DetectTest extends TestCase
         
         return;
     }
+    
+    
+    /* !__invoke() */
+    
+    /**
+     * __invoke() should return string
+     */
+    public function testInvoke()
+    {
+        return $this->assertEquals($this->value, (new Detect($this->name, []))());
+    }
 }

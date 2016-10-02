@@ -117,4 +117,15 @@ class Detect
             $this->possibleValues[strtolower($environment)] = strtolower($value);
         }
     } 
+    
+    /**
+     * Called when the service is treated like a function
+     *
+     * @return  string
+     * @since   2.0.0
+     */
+    public function __invoke(): string
+    {
+        return $this->actualValue;
+    }
 }
